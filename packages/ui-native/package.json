@@ -1,7 +1,7 @@
 {
   "name": "@my-design/ui-native",
   "version": "0.1.0",
-  "description": "React Native (Expo) components in the My Design glass style",
+  "description": "React Native (Expo) components for professional mobile apps",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "files": [

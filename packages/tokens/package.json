@@ -1,7 +1,7 @@
 {
   "name": "@my-design/tokens",
   "version": "0.1.0",
-  "description": "Design tokens: colors, type, spacing, radii, glass and depth",
+  "description": "Design tokens: brand color, neutrals, type, spacing, radii, shadows and icons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

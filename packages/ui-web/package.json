@@ -1,7 +1,7 @@
 {
   "name": "@my-design/ui-web",
   "version": "0.1.0",
-  "description": "React components in the My Design glass style",
+  "description": "React components for professional web apps (forms, tables, navigation, overlays, profile, charts)",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
