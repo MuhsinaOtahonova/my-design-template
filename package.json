@@ -9,7 +9,8 @@
     "typecheck": "turbo run typecheck",
     "storybook": "pnpm --filter @my-design/docs storybook",
     "web": "pnpm --filter web-starter dev",
-    "mobile": "pnpm --filter mobile-starter start"
+    "mobile": "pnpm --filter mobile-starter start",
+    "demo": "bash scripts/build-demo.sh"
   },
   "devDependencies": {
     "turbo": "^2.5.0",
