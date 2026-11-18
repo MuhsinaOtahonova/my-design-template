@@ -100,49 +100,15 @@ import {
   type Column,
   type Command,
 } from "@my-design/ui-web";
-
-// ---------------------------------------------------------------------------
-// Gallery building blocks
-// ---------------------------------------------------------------------------
-function Example({ title, note, code, children, center }: { title: string; note?: ReactNode; code?: string; children: ReactNode; center?: boolean }) {
-  const [show, setShow] = useState(false);
-  return (
-    <div className="ex">
-      <div className="ex__head">
-        <div>
-          <h4 className="ex__title">{title}</h4>
-          {note && <p className="ex__note">{note}</p>}
-        </div>
-        {code && (
-          <Button size="sm" variant="ghost" icon="code" onClick={() => setShow((s) => !s)}>
-            {show ? "Hide code" : "Code"}
-          </Button>
-        )}
-      </div>
-      <div className={`ex__demo${center ? " ex__demo--center" : ""}`}>{children}</div>
-      {show && code && <CodeBlock className="ex__code">{code.trim()}</CodeBlock>}
-    </div>
-  );
-}
-
-function Group({ id, title, intro, children }: { id: string; title: string; intro?: string; children: ReactNode }) {
-  return (
-    <section id={id} className="g-group">
-      <div className="g-group__head">
-        <h2 className="md-heading md-heading--4">{title}</h2>
-        {intro && <Text tone="muted">{intro}</Text>}
-      </div>
-      {children}
-    </section>
-  );
-}
-
-const Row = ({ children, gap = 12 }: { children: ReactNode; gap?: number }) => <div className="g-row" style={{ gap }}>{children}</div>;
-const Col = ({ children, gap = 16 }: { children: ReactNode; gap?: number }) => <div className="g-col" style={{ gap }}>{children}</div>;
+import { Col, Example, Group, Row } from "./blocks";
+import { Hero } from "./Hero";
+import { MotionGroup } from "./MotionGroup";
 
 export const sections = [
+  { id: "overview", label: "Overview", icon: "home" },
   { id: "foundations", label: "Foundations", icon: "layers" },
   { id: "buttons", label: "Buttons", icon: "zap" },
+  { id: "motion", label: "Motion & 3D", icon: "layers" },
   { id: "forms", label: "Forms", icon: "edit" },
   { id: "selection", label: "Selection & sliders", icon: "check" },
   { id: "cards", label: "Cards & stats", icon: "grid" },
@@ -244,6 +210,7 @@ export function Gallery() {
       </aside>
 
       <div className="gallery__body">
+        <Hero go={(id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })} />
         {/* ------------------------------------------------------------ */}
         <Group id="foundations" title="Foundations" intro="Tokens live in packages/tokens. Change BRAND there and every color below, on web and mobile, follows.">
           <Example title="Brand scale" note={<>Generated from one color: <Code>BRAND = "{BRAND}"</Code>. 600 is the primary button color.</>}>
@@ -396,6 +363,8 @@ export function Gallery() {
             </Row>
           </Example>
         </Group>
+
+        <MotionGroup />
 
         {/* ------------------------------------------------------------ */}
         <Group id="forms" title="Forms" intro="Every field takes label, hint, error and required props, so forms look the same everywhere.">

@@ -20,5 +20,8 @@ export { AppBar, TabBar, Tabs, Accordion, Steps } from "./Navigation";
 
 export { tokens, colors, palette, spacing, radii, typography } from "@my-design/tokens";
 
+// Motion
+export { FadeIn, PressableScale, AnimatedNumber, usePressScale, useReducedMotion } from "./Motion";
+
 // Advanced
 export { StatusDot, TagInput, ChatMessage, ChatComposer, type DotTone } from "./Advanced";

@@ -292,10 +292,14 @@ export const sizes = {
 export const zIndex = { dropdown: 1000, sticky: 1100, drawer: 1200, modal: 1300, toast: 1400, tooltip: 1500 } as const;
 
 export const motion = {
-  duration: { fast: 120, normal: 200, slow: 320 },
+  duration: { fast: 120, normal: 200, slow: 320, slower: 560 },
   easing: {
     standard: "cubic-bezier(0.2, 0, 0, 1)",
     out: "cubic-bezier(0, 0, 0.2, 1)",
+    /** Slight overshoot, for things that pop or settle (buttons, cards, menus) */
+    spring: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+    /** Strong ease-out for large surfaces entering the screen */
+    emphasized: "cubic-bezier(0.16, 1, 0.3, 1)",
   },
 } as const;
 

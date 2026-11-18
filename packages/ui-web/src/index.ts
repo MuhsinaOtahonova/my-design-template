@@ -5,7 +5,7 @@ export { Stack, Inline, Grid, Container, Divider, type StackProps, type GridProp
 export { ThemeProvider, useTheme, applyBrand, type Theme } from "./Theme";
 
 // Actions
-export { Button, ButtonLink, IconButton, ButtonGroup, type ButtonProps, type IconButtonProps, type ButtonVariant, type ControlSize } from "./Button";
+export { Button, ButtonLink, IconButton, ButtonGroup, addRipple, type ButtonProps, type IconButtonProps, type ButtonVariant, type ControlSize } from "./Button";
 
 // Forms
 export {
@@ -97,5 +97,23 @@ export {
   type TreeNode,
   type LightboxItem,
 } from "./Advanced";
+
+// Motion & depth
+export {
+  Reveal,
+  RevealGroup,
+  AnimatedNumber,
+  TiltCard,
+  TiltLayer,
+  SpotlightCard,
+  CardStack,
+  HoldButton,
+  SplitButton,
+  SpeedDial,
+  CopyButton,
+  useInView,
+  prefersReducedMotion,
+  type RevealEffect,
+} from "./Motion";
 
 export { tokens } from "@my-design/tokens";

@@ -3,6 +3,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, t
 import { dataColors, type IconName } from "@my-design/tokens";
 import { font, fs, r, sh, themed, useColors, type Colors } from "./theme";
 import { Icon } from "./Icon";
+import { PressableScale } from "./Motion";
 
 // ---------------------------------------------------------------------------
 // Card
@@ -10,12 +11,12 @@ import { Icon } from "./Icon";
 export function Card({ children, variant = "outlined", padding = 16, onPress, style }: { children: ReactNode; variant?: "outlined" | "elevated" | "muted"; padding?: number; onPress?: () => void; style?: StyleProp<ViewStyle> }) {
   const c = useColors();
   const styles = useStyles();
-  const base = [styles.card, variant === "elevated" && sh.md, variant === "muted" && { backgroundColor: c.surfaceMuted }, { padding }, style];
+  const base = [styles.card, variant === "outlined" && sh.sm, variant === "elevated" && sh.md, variant === "muted" && { backgroundColor: c.surfaceMuted }, { padding }, style];
   if (!onPress) return <View style={base}>{children}</View>;
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [base, pressed && { backgroundColor: c.surfaceMuted }]}>
+    <PressableScale onPress={onPress} to={0.98} style={base}>
       {children}
-    </Pressable>
+    </PressableScale>
   );
 }
 

@@ -84,13 +84,6 @@ export function App() {
       <main className="sc-main">
         {tab === "components" && (
           <>
-            <div className="sc-intro">
-              <h1 className="md-heading md-heading--2">Component library</h1>
-              <Text size="lg" tone="secondary">
-                Every building block for professional web and mobile apps, in navy and white with a day and night theme.
-                Each example shows its code. Use this page as a reference when building a new screen.
-              </Text>
-            </div>
             <Gallery />
           </>
         )}

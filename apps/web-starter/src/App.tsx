@@ -44,6 +44,7 @@ import {
   useTheme,
   useToast,
   type Column,
+  AnimatedNumber,
 } from "@my-design/ui-web";
 
 type Page = "dashboard" | "employees" | "profile" | "settings";
@@ -197,10 +198,10 @@ function Dashboard({ go }: { go: (p: Page) => void }) {
       />
       <Alert tone="info" title="Year-end closing starts on 1 December" onClose={() => {}}>Please submit all open expense reports before 28 November.</Alert>
       <Grid min={200}>
-        <Stat label="Headcount" value="248" delta="4.2%" hint="vs last month" icon="users" />
-        <Stat label="Open requests" value="36" delta="12%" trend="down" hint="vs last month" icon="inbox" />
-        <Stat label="Budget used" value="68%" delta="flat" trend="flat" hint="of ₺4.8M" icon="wallet" />
-        <Stat label="Satisfaction" value="4.6" delta="0.3" hint="out of 5" icon="star" />
+        <Stat label="Headcount" value={<AnimatedNumber value={248} />} delta="4.2%" hint="vs last month" icon="users" />
+        <Stat label="Open requests" value={<AnimatedNumber value={36} />} delta="12%" trend="down" hint="vs last month" icon="inbox" />
+        <Stat label="Budget used" value={<AnimatedNumber value={68} suffix="%" />} delta="flat" trend="flat" hint="of ₺4.8M" icon="wallet" />
+        <Stat label="Satisfaction" value={<AnimatedNumber value={4.6} decimals={1} />} delta="0.3" hint="out of 5" icon="star" />
       </Grid>
       <div className="dash-grid">
         <Card className="dash-grid__wide">
