@@ -14,10 +14,14 @@ import {
   Card,
   CardHeader,
   Carousel,
+  ChatComposer,
+  ChatMessage,
   Checkbox,
   Chip,
   Dialog,
   EmptyState,
+  StatusDot,
+  TagInput,
   Heading,
   IconButton,
   ListItem,
@@ -240,6 +244,7 @@ function Components() {
   const [chips, setChips] = useState(["Finance"]);
   const [step, setStep] = useState(1);
   const [n, setN] = useState(2);
+  const [msgs, setMsgs] = useState([{ a: "Mehmet Kaya", t: "Can you review the Q4 budget today?", own: false }, { a: "You", t: "Sure, I'll send comments by 3 PM.", own: true }]);
   return (
     <View style={{ gap: 32 }}>
       <Section title="Typography">
@@ -296,6 +301,26 @@ function Components() {
             <Chip key={t} label={t} selected={chips.includes(t)} onPress={() => setChips(chips.includes(t) ? chips.filter((x) => x !== t) : [...chips, t])} />
           ))}
         </View>
+      </Section>
+
+      <Section title="Status, tags & chat">
+        <View style={styles.wrap}>
+          <StatusDot tone="success" label="Online" />
+          <StatusDot tone="warning" label="Away" />
+          <StatusDot tone="danger" label="Busy" />
+          <StatusDot tone="neutral" label="Offline" />
+        </View>
+        <TagInput label="Labels" defaultValue={["Finance", "Q4"]} />
+        <Card>
+          <View style={{ gap: 12 }}>
+            {msgs.map((m, k) => (
+              <ChatMessage key={k} author={m.a} time="10:42" own={m.own} status={m.own ? "read" : undefined}>
+                {m.t}
+              </ChatMessage>
+            ))}
+            <ChatComposer onSend={(t) => setMsgs([...msgs, { a: "You", t, own: true }])} />
+          </View>
+        </Card>
       </Section>
 
       <Section title="Badges & avatars">
