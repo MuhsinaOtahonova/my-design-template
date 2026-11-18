@@ -1,0 +1,32 @@
+* { box-sizing: border-box; }
+body { margin: 0; }
+a { color: inherit; text-decoration: none; }
+
+.page { position: relative; overflow: hidden; padding: 48px 16px 96px; }
+.layout { position: relative; max-width: 1080px; margin: 0 auto; display: grid; gap: 56px; grid-template-columns: 1fr; }
+
+.hero { display: grid; gap: 20px; max-width: 760px; }
+.nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 32px; font-size: 14px; }
+.brand { display: inline-flex; align-items: center; gap: 8px; }
+.links { display: flex; gap: 20px; opacity: 0.85; }
+.hero__cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 28px 16px; }
+
+.products { display: grid; gap: 48px 24px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.product { display: grid; gap: 8px; text-align: center; }
+.product__art { display: grid; place-items: center; height: 120px; }
+
+.routine, .signup { display: grid; gap: 18px; }
+
+.deco { position: absolute; }
+.deco--a { top: 40px; right: 6%; }
+.deco--b { top: 52%; left: 3%; }
+.deco--c { bottom: 6%; right: 12%; }
+
+@media (min-width: 860px) {
+  .layout { grid-template-columns: 1.4fr 1fr; }
+  .hero, .products { grid-column: 1 / -1; }
+  .links { display: flex; }
+}
+@media (max-width: 520px) { .links { display: none; } }

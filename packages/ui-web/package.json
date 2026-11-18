@@ -1,0 +1,38 @@
+{
+  "name": "@my-design/ui-web",
+  "version": "0.1.0",
+  "description": "React components in the My Design glass style",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean --external react && node scripts/build-css.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@my-design/tokens": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "react": "19.3.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.0"
+  }
+}

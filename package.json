@@ -1,0 +1,18 @@
+{
+  "name": "my-design-template",
+  "private": true,
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "storybook": "pnpm --filter @my-design/docs storybook",
+    "web": "pnpm --filter web-starter dev",
+    "mobile": "pnpm --filter mobile-starter start"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.0"
+  }
+}

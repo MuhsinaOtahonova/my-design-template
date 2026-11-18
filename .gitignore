@@ -1,0 +1,9 @@
+node_modules
+dist
+storybook-static
+.turbo
+.expo
+*.log
+.DS_Store
+.env*
+!.env.example
