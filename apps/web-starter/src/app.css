@@ -1,32 +1,51 @@
-* { box-sizing: border-box; }
-body { margin: 0; }
-a { color: inherit; text-decoration: none; }
+/* Layout of the sample office app. Components bring their own styles. */
+html, body, #root { height: 100%; }
 
-.page { position: relative; overflow: hidden; padding: 48px 16px 96px; }
-.layout { position: relative; max-width: 1080px; margin: 0 auto; display: grid; gap: 56px; grid-template-columns: 1fr; }
+.app { display: flex; height: 100vh; overflow: hidden; }
+.app__main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.app__content { flex: 1; overflow-y: auto; padding: 24px 28px 48px; display: flex; flex-direction: column; gap: 20px; }
+.app__content > * { max-width: 1280px; width: 100%; margin: 0 auto; }
+.app__menu { display: none; }
+.app__search { width: 320px; max-width: 40vw; }
+.app__avatar { border: 0; background: none; padding: 2px; margin-left: 6px; border-radius: 50%; cursor: pointer; }
+.app__drawer-nav { display: flex; flex-direction: column; gap: 18px; }
+.app__drawer-nav .md-navitem { color: var(--md-color-textSecondary); }
+.app__drawer-nav .md-navitem:hover { background: var(--md-color-surfaceSunken); color: var(--md-color-text); }
+.app__drawer-nav .md-navitem--active { background: var(--md-color-primarySoft); color: var(--md-color-primaryText); }
+.app__drawer-nav .md-navitem--active::before { display: none; }
+.app__drawer-nav .md-navsection__title { color: var(--md-color-textMuted); }
+.app__drawer-nav .md-navitem__count { background: var(--md-color-surfaceSunken); color: var(--md-color-textSecondary); }
 
-.hero { display: grid; gap: 20px; max-width: 760px; }
-.nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 32px; font-size: 14px; }
-.brand { display: inline-flex; align-items: center; gap: 8px; }
-.links { display: flex; gap: 20px; opacity: 0.85; }
-.hero__cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.page-header { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between; }
+.page-header__title { margin: 8px 0 4px; }
+.page-header__actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
-.chips { display: flex; flex-wrap: wrap; gap: 28px 16px; }
+.dash-grid { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dash-grid__wide { grid-column: span 2; }
+.pad { padding: 16px 20px; }
+.stack-16 { display: flex; flex-direction: column; gap: 16px; }
+.spark-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
-.products { display: grid; gap: 48px 24px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-.product { display: grid; gap: 8px; text-align: center; }
-.product__art { display: grid; place-items: center; height: 120px; }
+.table-toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding: 14px 16px; }
+.table-toolbar__right { display: flex; gap: 8px; align-items: center; }
+.md-card > .md-table-wrap { border-width: 1px 0; border-radius: 0; }
 
-.routine, .signup { display: grid; gap: 18px; }
+.settings { max-width: 880px !important; }
+.settings__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.settings__full { grid-column: 1 / -1; }
 
-.deco { position: absolute; }
-.deco--a { top: 40px; right: 6%; }
-.deco--b { top: 52%; left: 3%; }
-.deco--c { bottom: 6%; right: 12%; }
-
-@media (min-width: 860px) {
-  .layout { grid-template-columns: 1.4fr 1fr; }
-  .hero, .products { grid-column: 1 / -1; }
-  .links { display: flex; }
+@media (max-width: 1100px) {
+  .dash-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-@media (max-width: 520px) { .links { display: none; } }
+@media (max-width: 860px) {
+  .app__sidebar { display: none; }
+  .app__menu { display: inline-flex; }
+  .app__content { padding: 16px 16px 40px; }
+  .dash-grid { grid-template-columns: 1fr; }
+  .dash-grid__wide { grid-column: auto; }
+  .settings__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .app__search { display: none; }
+  .page-header__actions > .md-segmented { display: none; }
+}

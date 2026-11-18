@@ -1,2 +1,2 @@
-export const cx = (...parts: Array<string | false | null | undefined>) =>
-  parts.filter(Boolean).join(" ");
+/** Joins class names, skipping falsy values. */
+export const cx = (...parts: unknown[]) => parts.filter((p): p is string => typeof p === "string" && p !== "").join(" ");
