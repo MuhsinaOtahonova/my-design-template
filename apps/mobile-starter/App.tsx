@@ -21,8 +21,8 @@ export default function App() {
         {screen === "home" ? <Home /> : <Components />}
       </ScrollView>
       <View style={styles.tabbar}>
-        <Button size="sm" variant={screen === "home" ? "solid" : "glass"} onPress={() => setScreen("home")}>Ana sayfa</Button>
-        <Button size="sm" variant={screen === "components" ? "solid" : "glass"} onPress={() => setScreen("components")}>Bileşenler</Button>
+        <Button size="sm" variant={screen === "home" ? "solid" : "glass"} onPress={() => setScreen("home")}>Home</Button>
+        <Button size="sm" variant={screen === "components" ? "solid" : "glass"} onPress={() => setScreen("components")}>Components</Button>
       </View>
     </View>
   );
@@ -61,7 +61,7 @@ function Components() {
   return (
     <View style={{ gap: 36 }}>
       <GlassPanel tone="dark">
-        <Heading level={3} style={{ marginBottom: 12 }}>Yazı</Heading>
+        <Heading level={3} style={{ marginBottom: 12 }}>Typography</Heading>
         <Heading level={1}>Heading 1</Heading>
         <Heading level={2}>Heading 2</Heading>
         <Heading level={3}>Heading 3</Heading>
@@ -70,7 +70,7 @@ function Components() {
       </GlassPanel>
 
       <GlassPanel tone="dark">
-        <Heading level={3} style={{ marginBottom: 16 }}>Butonlar</Heading>
+        <Heading level={3} style={{ marginBottom: 16 }}>Buttons</Heading>
         {(["glass", "solid", "ghost"] as const).map((v) => (
           <View key={v} style={styles.wrap}>
             <Button variant={v} size="sm">{v} sm</Button>
@@ -85,7 +85,7 @@ function Components() {
       </GlassPanel>
 
       <View style={{ gap: 28 }}>
-        <Heading level={3}>Cam paneller</Heading>
+        <Heading level={3}>Glass panels</Heading>
         {(["light", "dark"] as const).map((tone) => (
           <View key={tone} style={styles.wrap}>
             {(["sm", "md", "lg"] as const).map((el) => (
@@ -97,12 +97,12 @@ function Components() {
           </View>
         ))}
         <GlassPanel tone="dark" drip>
-          <Text>drip: eriyen kenar</Text>
+          <Text>drip: melting edge</Text>
         </GlassPanel>
       </View>
 
       <GlassPanel tone="dark" style={{ marginTop: 8 }}>
-        <Heading level={3} style={{ marginBottom: 16 }}>Damla tonları</Heading>
+        <Heading level={3} style={{ marginBottom: 16 }}>Drip tones</Heading>
         <View style={{ gap: 52, paddingBottom: 40 }}>
           {(["light", "dark", "rose"] as const).map((tone) => (
             <View key={tone}>
@@ -116,7 +116,7 @@ function Components() {
       </GlassPanel>
 
       <GlassPanel tone="dark">
-        <Heading level={3} style={{ marginBottom: 16 }}>Küreler & ilerleme</Heading>
+        <Heading level={3} style={{ marginBottom: 16 }}>Orbs & progress</Heading>
         <View style={[styles.wrap, { alignItems: "center", justifyContent: "space-around" }]}>
           <Orb size={80} /><Orb size={56} /><Orb size={32} />
         </View>

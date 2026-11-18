@@ -5,16 +5,16 @@ import { Gallery } from "./Gallery";
 
 const tabs = [
   { id: "web", label: "Web" },
-  { id: "mobil", label: "Mobil" },
-  { id: "yan-yana", label: "Yan yana" },
-  { id: "bilesenler", label: "Tüm bileşenler" },
+  { id: "mobile", label: "Mobile" },
+  { id: "side-by-side", label: "Side by side" },
+  { id: "components", label: "All components" },
 ] as const;
 type Tab = (typeof tabs)[number]["id"];
 
 const widths = [
-  { id: "desktop", label: "Masaüstü", w: 1280, h: 860 },
+  { id: "desktop", label: "Desktop", w: 1280, h: 860 },
   { id: "tablet", label: "Tablet", w: 820, h: 1000 },
-  { id: "phone", label: "Telefon", w: 390, h: 844 },
+  { id: "phone", label: "Phone", w: 390, h: 844 },
 ] as const;
 
 // The other demo builds are published next to this page (see .github/workflows/pages.yml)
@@ -22,8 +22,12 @@ const WEB = "./web/";
 const MOBILE = "./mobile/";
 const STORYBOOK = "./storybook/";
 
+// Older Turkish links keep working
+const aliases: Record<string, Tab> = { mobil: "mobile", "yan-yana": "side-by-side", bilesenler: "components" };
+
 function readTab(): Tab {
-  const h = window.location.hash.replace("#", "");
+  const raw = window.location.hash.replace("#", "");
+  const h = aliases[raw] ?? raw;
   return (tabs.find((t) => t.id === h)?.id ?? "web") as Tab;
 }
 
@@ -51,10 +55,10 @@ export function App() {
       <div className="sc-layout">
         <GlassPanel tone="dark" elevation="lg" padding="lg" drip={{ intensity: 0.8, drops: [22, 74] }} className="sc-hero">
           <span className="sc-brand" lang="en"><Orb size={18} variant="pearl" float={false} /> My Design</span>
-          <Heading level={1}>Canlı Demo</Heading>
+          <Heading level={1}>Live Demo</Heading>
           <Text muted>
-            Buzlu cam, toz pembe ve lavanta tonları, eriyen kenarlar. Aynı tasarım sistemi
-            hem web sitesinde hem mobil uygulamada. Aşağıdan görünümü seç.
+            Frosted glass, dusty rose and lavender tones, melting edges. One design system
+            for both the website and the mobile app. Pick a view below.
           </Text>
           <div className="sc-tabs" role="tablist">
             {tabs.map((t) => (
@@ -76,7 +80,7 @@ export function App() {
         {tab === "web" && (
           <section className="sc-section">
             <div className="sc-toolbar sc-on-light">
-              <Text muted>Örnek web sitesi, farklı ekran genişliklerinde:</Text>
+              <Text muted>Sample website at different screen widths:</Text>
               <div className="sc-sizes">
                 {widths.map((w) => (
                   <Button key={w.id} size="sm" variant={size === w.id ? "solid" : "ghost"} onClick={() => setSize(w.id)}>
@@ -86,42 +90,42 @@ export function App() {
               </div>
             </div>
             {device.id === "phone" ? (
-              <DeviceFrame kind="phone" src={WEB} title="Web sitesi (telefon)" width={device.w} height={device.h} maxWidth={420} />
+              <DeviceFrame kind="phone" src={WEB} title="Website (phone)" width={device.w} height={device.h} maxWidth={420} />
             ) : (
-              <DeviceFrame kind="browser" src={WEB} title="Web sitesini tam ekran aç" width={device.w} height={device.h} />
+              <DeviceFrame kind="browser" src={WEB} title="Open the website full screen" width={device.w} height={device.h} />
             )}
           </section>
         )}
 
-        {tab === "mobil" && (
+        {tab === "mobile" && (
           <section className="sc-section sc-section--center">
             <Text className="sc-center sc-on-light">
-              Expo mobil uygulamasının tarayıcıda çalışan hali. Alttaki sekmelerle
-              "Ana sayfa" ve "Bileşenler" ekranları arasında geçebilirsin.
+              The Expo mobile app running in the browser. Use the tabs at the bottom
+              to switch between the "Home" and "Components" screens.
             </Text>
-            <DeviceFrame kind="phone" src={MOBILE} title="Mobil uygulama" width={390} height={844} maxWidth={420} />
-            <a className="sc-link sc-on-light" href={MOBILE} target="_blank" rel="noreferrer">Telefonunda tam ekran aç ↗</a>
+            <DeviceFrame kind="phone" src={MOBILE} title="Mobile app" width={390} height={844} maxWidth={420} />
+            <a className="sc-link sc-on-light" href={MOBILE} target="_blank" rel="noreferrer">Open full screen on your phone ↗</a>
           </section>
         )}
 
-        {tab === "yan-yana" && (
+        {tab === "side-by-side" && (
           <section className="sc-section sc-side sc-on-light">
             <div>
-              <Heading level={4} className="sc-cap">Web sitesi</Heading>
-              <DeviceFrame kind="browser" src={WEB} title="Web sitesi" width={1280} height={900} />
+              <Heading level={4} className="sc-cap">Website</Heading>
+              <DeviceFrame kind="browser" src={WEB} title="Website" width={1280} height={900} />
             </div>
             <div>
-              <Heading level={4} className="sc-cap">Mobil uygulama</Heading>
-              <DeviceFrame kind="phone" src={MOBILE} title="Mobil uygulama" width={390} height={844} maxWidth={380} />
+              <Heading level={4} className="sc-cap">Mobile app</Heading>
+              <DeviceFrame kind="phone" src={MOBILE} title="Mobile app" width={390} height={844} maxWidth={380} />
             </div>
           </section>
         )}
 
-        {tab === "bilesenler" && <Gallery />}
+        {tab === "components" && <Gallery />}
 
         <footer className="sc-footer">
           <Text muted>
-            Kaynak: <a href="https://github.com/MuhsinaOtahonova/my-design-template">github.com/MuhsinaOtahonova/my-design-template</a>
+            Source: <a href="https://github.com/MuhsinaOtahonova/my-design-template">github.com/MuhsinaOtahonova/my-design-template</a>
           </Text>
         </footer>
       </div>
