@@ -25,7 +25,7 @@ function Label({ children }: { children: React.ReactNode }) {
 export function Gallery() {
   return (
     <div className="gallery" lang="en">
-      <Section title="Renkler" note="packages/tokens → palette">
+      <Section title="Colors" note="packages/tokens → palette">
         <div className="g-swatches">
           {Object.entries(palette).filter(([, v]) => typeof v === "object").map(([name, shades]) => (
             <div key={name} className="g-swatch-row">
@@ -43,7 +43,7 @@ export function Gallery() {
         </div>
       </Section>
 
-      <Section title="Yazı" note="Heading 1–4, display, Text, muted">
+      <Section title="Typography" note="Heading 1–4, display, Text, muted">
         <div className="g-stack">
           <Heading level={1} display>Display</Heading>
           <Heading level={1}>Heading One</Heading>
@@ -55,7 +55,7 @@ export function Gallery() {
         </div>
       </Section>
 
-      <Section title="Butonlar" note="variant × size, drip, icon, fullWidth, disabled">
+      <Section title="Buttons" note="variant × size, drip, icon, fullWidth, disabled">
         {(["glass", "solid", "ghost"] as const).map((v) => (
           <div key={v} className="g-row g-row--buttons">
             <Label>{v}</Label>
@@ -70,7 +70,7 @@ export function Gallery() {
         <Button variant="solid" fullWidth drip>Full width</Button>
       </Section>
 
-      <Section title="Cam paneller" note="tone × elevation, tilt, drip, padding">
+      <Section title="Glass panels" note="tone × elevation, tilt, drip, padding">
         <div className="g-grid">
           {(["light", "dark"] as const).flatMap((tone) =>
             (["sm", "md", "lg"] as const).map((el) => (
@@ -81,13 +81,13 @@ export function Gallery() {
             )),
           )}
           <GlassPanel tone="dark" tilt padding="md" className="g-card">
-            <Heading level={4}>tilt</Heading><Text muted>Fareyle üzerine gel</Text>
+            <Heading level={4}>tilt</Heading><Text muted>Hover over me</Text>
           </GlassPanel>
           <GlassPanel tone="dark" drip padding="md" className="g-card">
-            <Heading level={4}>drip</Heading><Text muted>Eriyen kenar</Text>
+            <Heading level={4}>drip</Heading><Text muted>Melting edge</Text>
           </GlassPanel>
           <GlassPanel tone="light" drip={{ intensity: 1, drops: [30, 60, 85] }} padding="md" className="g-card">
-            <Heading level={4}>drip: custom</Heading><Text muted>intensity 1, 3 damla</Text>
+            <Heading level={4}>drip: custom</Heading><Text muted>intensity 1, 3 drops</Text>
           </GlassPanel>
           {(["none", "sm", "lg"] as const).map((p) => (
             <GlassPanel key={p} padding={p} className="g-card">
@@ -97,7 +97,7 @@ export function Gallery() {
         </div>
       </Section>
 
-      <Section title="Damla (Drip)" note="tone: light · dark · rose">
+      <Section title="Drip" note="tone: light · dark · rose">
         <div className="g-grid">
           {(["light", "dark", "rose"] as const).map((tone) => (
             <div key={tone} className="g-drip">
@@ -109,7 +109,7 @@ export function Gallery() {
         </div>
       </Section>
 
-      <Section title="Küreler (Orb)" note="variant: bubble · pearl · rose, float">
+      <Section title="Orbs" note="variant: bubble · pearl · rose, float">
         <div className="g-row g-row--center">
           <Orb size={110} />
           <Orb size={80} variant="pearl" />
@@ -119,7 +119,7 @@ export function Gallery() {
         </div>
       </Section>
 
-      <Section title="İlerleme & Form" note="Progress, Input">
+      <Section title="Progress & form" note="Progress, Input">
         <div className="g-grid g-grid--2">
           <div className="g-stack">
             <Progress label="Hydration" value={72} />
@@ -129,13 +129,13 @@ export function Gallery() {
           </div>
           <div className="g-stack">
             <Input label="Email" placeholder="you@example.com" type="email" />
-            <Input label="Şifre" placeholder="••••••••" type="password" />
-            <Input placeholder="Etiketsiz alan" />
+            <Input label="Password" placeholder="••••••••" type="password" />
+            <Input placeholder="Field without label" />
           </div>
         </div>
       </Section>
 
-      <Section title="Köşe & boşluk" note="radii, spacing">
+      <Section title="Radii & spacing" note="radii, spacing">
         <div className="g-row">
           {Object.entries(radii).map(([k, r]) => (
             <div key={k} className="g-radius">
