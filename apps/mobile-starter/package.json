@@ -8,10 +8,13 @@
     "dev": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "web": "expo start --web",
+    "build:web": "expo export --platform web --output-dir dist"
   },
   "dependencies": {
     "@expo-google-fonts/jost": "^0.4.2",
+    "@expo/metro-runtime": "~58.0.17",
     "@my-design/ui-native": "workspace:*",
     "expo": "~58.0.26",
     "expo-blur": "~58.0.6",
@@ -19,11 +22,13 @@
     "expo-linear-gradient": "~58.0.4",
     "expo-status-bar": "~58.0.5",
     "react": "19.3.0",
+    "react-dom": "19.3.0",
     "react-native": "0.88.1",
-    "react-native-svg": "15.16.0"
+    "react-native-svg": "15.16.0",
+    "react-native-web": "~0.21.4"
   },
   "devDependencies": {
-    "typescript": "^5.8.0",
-    "@types/react": "~19.2.0"
+    "@types/react": "~19.2.0",
+    "typescript": "^5.8.0"
   }
 }
