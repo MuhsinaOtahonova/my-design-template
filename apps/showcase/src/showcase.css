@@ -108,3 +108,6 @@ a { color: inherit; }
 .phone-nav { width: 300px; height: 260px; border: 1px solid var(--md-color-border); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; background: var(--md-color-background); }
 .phone-nav__screen { flex: 1; display: grid; place-items: center; }
 @media (max-width: 720px) { .shell-demo .md-sidebar { display: none; } .cards-grid--3 { grid-template-columns: 1fr; } }
+.ctx-area { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; height: 160px; border: 1.5px dashed var(--md-color-borderStrong); border-radius: var(--md-radius-md); color: var(--md-color-textMuted); user-select: none; }
+.chat-demo { padding: 16px; max-height: 320px; overflow-y: auto; }
+.ex-pair { display: grid; gap: 20px 24px; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); align-items: start; }

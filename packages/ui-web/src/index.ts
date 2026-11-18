@@ -68,4 +68,34 @@ export { Modal, Drawer, Popover, Menu, type ModalProps, type MenuItem } from "./
 // Navigation & app shell
 export { Tabs, Breadcrumbs, Pagination, Steps, Accordion, Sidebar, NavSection, NavItem, Topbar, BottomNav, Logo, type TabItem } from "./Navigation";
 
+// Advanced (inspired by large enterprise systems)
+export {
+  CommandPalette,
+  useHotkey,
+  Combobox,
+  MultiSelect,
+  TagInput,
+  DateRangeInput,
+  TreeList,
+  ContextMenu,
+  InfoTip,
+  HoverCard,
+  Toolbar,
+  ToolbarDivider,
+  ToggleButton,
+  Timestamp,
+  relativeTime,
+  StatusDot,
+  SelectableCards,
+  ChatThread,
+  ChatMessage,
+  ChatComposer,
+  Lightbox,
+  Blockquote,
+  type Command,
+  type ComboOption,
+  type TreeNode,
+  type LightboxItem,
+} from "./Advanced";
+
 export { tokens } from "@my-design/tokens";

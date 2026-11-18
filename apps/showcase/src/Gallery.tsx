@@ -75,7 +75,30 @@ import {
   Topbar,
   UserCell,
   useToast,
+  Blockquote,
+  ChatComposer,
+  ChatMessage,
+  ChatThread,
+  Combobox,
+  CommandPalette,
+  ContextMenu,
+  DateRangeInput,
+  HoverCard,
+  InfoTip,
+  Inline,
+  Lightbox,
+  MultiSelect,
+  SelectableCards,
+  StatusDot,
+  TagInput,
+  Timestamp,
+  ToggleButton,
+  Toolbar,
+  ToolbarDivider,
+  TreeList,
+  useHotkey,
   type Column,
+  type Command,
 } from "@my-design/ui-web";
 
 // ---------------------------------------------------------------------------
@@ -132,6 +155,8 @@ export const sections = [
   { id: "shell", label: "App shell", icon: "dashboard" },
   { id: "date", label: "Calendar & carousel", icon: "calendar" },
   { id: "charts", label: "Charts", icon: "chart" },
+  { id: "advanced", label: "Pickers & power tools", icon: "search" },
+  { id: "chat", label: "Chat & media", icon: "message" },
   { id: "patterns", label: "Page patterns", icon: "briefcase" },
 ] as const;
 
@@ -177,6 +202,21 @@ export function Gallery() {
   const [nav, setNav] = useState("home");
   const [loading, setLoading] = useState(false);
   const [active, setActive] = useState<string>(sections[0].id);
+  const [cmdOpen, setCmdOpen] = useState(false);
+  const [treeSel, setTreeSel] = useState("q4");
+  const [chat, setChat] = useState([
+    { author: "Mehmet Kaya", text: "Can you review the Q4 budget before the 15:00 meeting?", time: "10:42", own: false },
+    { author: "You", text: "Sure. I'll leave my comments in the sheet.", time: "10:44", own: true },
+    { author: "Zeynep Ak", text: "I added the travel costs to tab 3.", time: "10:51", own: false },
+  ]);
+  useHotkey("k", () => setCmdOpen(true));
+  const go = (id: string) => () => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const commands: Command[] = [
+    { id: "new", label: "New expense request", group: "Actions", icon: "plus", shortcut: "N", onSelect: () => toast({ tone: "success", title: "Draft request created" }) },
+    { id: "theme", label: "Invite a colleague", group: "Actions", icon: "users", onSelect: () => toast({ title: "Invitation sent" }) },
+    { id: "export", label: "Export table as CSV", group: "Actions", icon: "download", onSelect: () => toast({ title: "Export started" }) },
+    ...sections.map((s) => ({ id: `go-${s.id}`, label: s.label, group: "Go to section", icon: s.icon, onSelect: go(s.id) })),
+  ];
 
   useEffect(() => {
     const io = new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)), { rootMargin: "-20% 0px -70% 0px" });
@@ -883,6 +923,164 @@ export function Gallery() {
         </Group>
 
         {/* ------------------------------------------------------------ */}
+        <Group id="advanced" title="Search, pickers & power tools" intro="Patterns large enterprise systems rely on: a command palette, searchable pickers, tag fields, trees and right-click menus.">
+          <Example title="Command palette" note={<>Press <Kbd>Ctrl</Kbd> <Kbd>K</Kbd> (or <Kbd>⌘</Kbd> <Kbd>K</Kbd>) anywhere on this page. Arrow keys move, Enter runs.</>} code={`const [open, setOpen] = useState(false);\nuseHotkey("k", () => setOpen(true));\n\n<CommandPalette\n  open={open}\n  onClose={() => setOpen(false)}\n  commands={[\n    { id: "new", label: "New request", group: "Actions", icon: "plus", shortcut: "N", onSelect: () => {} },\n    { id: "emp", label: "Employees", group: "Go to", icon: "users" },\n  ]}\n/>`}>
+            <Row>
+              <Button variant="outline" icon="search" onClick={() => setCmdOpen(true)}>
+                Search or run a command… <Kbd>Ctrl K</Kbd>
+              </Button>
+            </Row>
+          </Example>
+          <div className="ex-pair">
+            <Example title="Combobox" note="Searchable single select with descriptions and avatars." code={`<Combobox\n  label="Assignee"\n  options={[{ value: "ayse", label: "Ayşe Demir", description: "Finance", avatar: true }]}\n/>`}>
+              <Col>
+                <Combobox label="Assignee" defaultValue="1" options={people.map((p) => ({ value: p.id, label: p.name, description: `${p.role} · ${p.team}`, avatar: true }))} />
+                <Combobox label="Cost center" placeholder="Choose a cost center" options={[{ value: "100", label: "100 · Head office", icon: "building" }, { value: "210", label: "210 · Sales EMEA", icon: "globe" }, { value: "330", label: "330 · IT operations", icon: "settings" }, { value: "410", label: "410 · Marketing", icon: "zap" }]} />
+              </Col>
+            </Example>
+            <Example title="Multi select & tag input" code={`<MultiSelect label="Reviewers" options={people} defaultValue={["ayse"]} />\n<TagInput label="Labels" defaultValue={["Q4"]} />\n<TagInput label="Invite by email" validate={(t) => t.includes("@")} />`}>
+              <Col>
+                <MultiSelect label="Reviewers" defaultValue={["1", "2"]} options={people.map((p) => ({ value: p.id, label: p.name, avatar: true }))} />
+                <TagInput label="Labels" defaultValue={["Q4", "Budget"]} hint="Press Enter or comma to add" />
+                <TagInput label="Invite by email" placeholder="name@company.com" validate={(t) => /.+@.+\..+/.test(t)} hint="Only valid email addresses are added" />
+              </Col>
+            </Example>
+          </div>
+          <div className="ex-pair">
+            <Example title="Date range" code={`<DateRangeInput label="Leave period" defaultValue={["2026-12-22", "2026-12-31"]} />`}>
+              <DateRangeInput label="Leave period" defaultValue={["2026-12-22", "2026-12-31"]} />
+            </Example>
+            <Example title="Selectable cards" note="Radio or checkbox choices as cards, for plans and options." code={`<SelectableCards\n  defaultValue={["team"]}\n  options={[{ value: "team", title: "Team", description: "Up to 25 people", icon: "users" }]}\n/>`}>
+              <SelectableCards columns={3} defaultValue={["team"]} options={[{ value: "basic", title: "Basic", description: "Up to 5 people", icon: "user", aside: "Free" }, { value: "team", title: "Team", description: "Up to 25 people", icon: "users", aside: "₺450" }, { value: "org", title: "Organization", description: "Unlimited, SSO", icon: "building", aside: "Custom" }]} />
+            </Example>
+          </div>
+          <div className="ex-pair">
+            <Example title="Tree list" note="Folders, org charts and nested categories." code={`<TreeList\n  defaultExpanded={["fin"]}\n  nodes={[{ id: "fin", label: "Finance", icon: "folder", children: [{ id: "q4", label: "Q4 budget.xlsx", icon: "file" }] }]}\n/>`}>
+              <TreeList
+                defaultExpanded={["docs", "fin"]}
+                selected={treeSel}
+                onSelect={(n) => setTreeSel(n.id)}
+                nodes={[
+                  { id: "docs", label: "Company documents", icon: "folder", meta: "24", children: [
+                    { id: "fin", label: "Finance", icon: "folder", children: [
+                      { id: "q4", label: "Q4 budget.xlsx", icon: "file", meta: "2 MB" },
+                      { id: "inv", label: "Invoices 2026", icon: "folder", children: [{ id: "i1", label: "INV-1042.pdf", icon: "file" }] },
+                    ] },
+                    { id: "hr", label: "Human resources", icon: "folder", children: [{ id: "pol", label: "Leave policy.pdf", icon: "file" }] },
+                  ] },
+                  { id: "shared", label: "Shared with me", icon: "users", children: [{ id: "deck", label: "Board deck.pptx", icon: "file" }] },
+                ]}
+              />
+            </Example>
+            <Example title="Context menu" note="Right-click (or long-press) the area below." code={`<ContextMenu items={[{ label: "Open", icon: "eye" }, { type: "divider" }, { label: "Delete", icon: "trash", danger: true }]}>\n  <div>Right-click me</div>\n</ContextMenu>`}>
+              <ContextMenu
+                items={[
+                  { label: "Open", icon: "eye", shortcut: "Enter", onSelect: () => toast({ title: "Opened" }) },
+                  { label: "Copy link", icon: "link", shortcut: "Ctrl C" },
+                  { label: "Download", icon: "download" },
+                  { type: "divider" },
+                  { label: "Delete", icon: "trash", danger: true, onSelect: () => toast({ tone: "danger", title: "Deleted" }) },
+                ]}
+              >
+                <div className="ctx-area">
+                  <Icon name="file" size={28} />
+                  <Text tone="muted" size="sm">Right-click this file</Text>
+                </div>
+              </ContextMenu>
+            </Example>
+          </div>
+          <Example title="Toolbar & toggle buttons" note="Group related actions. Toggle buttons keep an on/off state." code={`<Toolbar aria-label="Formatting">\n  <ToggleButton icon="edit" label="Edit mode" />\n  <ToolbarDivider />\n  <IconButton icon="link" label="Link" variant="ghost" />\n</Toolbar>`}>
+            <Toolbar aria-label="Document">
+              <ToggleButton icon="edit" label="Edit mode" defaultPressed />
+              <ToggleButton icon="eye" label="Preview" />
+              <ToolbarDivider />
+              <IconButton icon="link" label="Insert link" variant="ghost" size="sm" />
+              <IconButton icon="image" label="Insert image" variant="ghost" size="sm" />
+              <IconButton icon="paperclip" label="Attach" variant="ghost" size="sm" />
+              <ToolbarDivider />
+              <ToggleButton icon="star" label="Starred" showLabel />
+              <ToggleButton icon="bell" label="Follow" showLabel defaultPressed />
+            </Toolbar>
+          </Example>
+          <div className="ex-pair">
+            <Example title="Info tip & hover card" code={`<InfoTip>Net pay after tax and social security.</InfoTip>\n<HoverCard trigger={<Link>Ayşe Demir</Link>}>\n  <UserCell name="Ayşe Demir" detail="Senior Accountant" />\n</HoverCard>`}>
+              <Col gap={14}>
+                <Inline>
+                  <Text weight="medium">Net salary</Text>
+                  <InfoTip>Net pay after income tax and social security deductions.</InfoTip>
+                </Inline>
+                <Text>
+                  Approved by{" "}
+                  <HoverCard trigger={<Link href="#components/advanced">Ayşe Demir</Link>}>
+                    <Col gap={12}>
+                      <UserCell name="Ayşe Demir" detail="Senior Accountant · Finance" status="online" />
+                      <DescriptionList items={[{ label: "Email", value: "ayse.demir@company.com" }, { label: "Local time", value: "14:20" }]} />
+                      <Inline>
+                        <Button size="sm" icon="message">Message</Button>
+                        <Button size="sm" variant="outline" icon="phone">Call</Button>
+                      </Inline>
+                    </Col>
+                  </HoverCard>{" "}
+                  on 14 Nov.
+                </Text>
+              </Col>
+            </Example>
+            <Example title="Status dot & timestamp" code={`<StatusDot tone="success" label="Operational" pulse />\n<Timestamp date={new Date(Date.now() - 5 * 60e3)} />`}>
+              <Col gap={12}>
+                <Inline>
+                  <StatusDot tone="success" label="Operational" pulse />
+                  <StatusDot tone="warning" label="Degraded" />
+                  <StatusDot tone="danger" label="Outage" />
+                  <StatusDot tone="neutral" label="Paused" />
+                </Inline>
+                <Inline>
+                  <Text size="sm" tone="muted">Updated <Timestamp date={new Date(Date.now() - 5 * 60e3)} /></Text>
+                  <Text size="sm" tone="muted">· Created <Timestamp date={new Date(Date.now() - 3 * 86400e3)} format="date" /></Text>
+                </Inline>
+              </Col>
+            </Example>
+          </div>
+        </Group>
+
+        {/* ------------------------------------------------------------ */}
+        <Group id="chat" title="Chat & media" intro="Messaging, comments, image and attachment previews.">
+          <div className="ex-pair">
+            <Example title="Chat thread" note="Type a message and press Enter." code={`<ChatThread>\n  <ChatMessage author="Mehmet Kaya" time="10:42">Can you review it?</ChatMessage>\n  <ChatMessage author="You" own time="10:44" status="read">Sure.</ChatMessage>\n</ChatThread>\n<ChatComposer onSend={(text) => {}} />`}>
+              <Card padding="none">
+                <ChatThread className="chat-demo">
+                  {chat.map((m, i) => (
+                    <ChatMessage key={i} author={m.author} time={m.time} own={m.own} status={m.own ? "read" : undefined}>
+                      {m.text}
+                    </ChatMessage>
+                  ))}
+                </ChatThread>
+                <div style={{ padding: 12, borderTop: "1px solid var(--md-color-border)" }}>
+                  <ChatComposer onSend={(text) => setChat((c) => [...c, { author: "You", text, time: "now", own: true }])} />
+                </div>
+              </Card>
+            </Example>
+            <Col>
+              <Example title="Image & attachment preview" note="Click a thumbnail. Arrow keys switch, Esc closes." code={`<Lightbox items={[{ src: "/office.jpg", title: "Office" }, { title: "Floor plan", color: "#1F3B70" }]} />`}>
+                <Lightbox
+                  columns={3}
+                  items={[
+                    { title: "Reception", color: "linear-gradient(135deg, var(--md-brand-700), var(--md-brand-400))" },
+                    { title: "Meeting room", color: "linear-gradient(135deg, #2F6F5E, #8CC7A1)" },
+                    { title: "Floor plan", color: "linear-gradient(135deg, #5B6475, #C4CAD6)" },
+                    { title: "Open office", color: "linear-gradient(135deg, #8A5A1B, #E2B262)" },
+                    { title: "Cafeteria", color: "linear-gradient(135deg, #7A2E3A, #D9828F)" },
+                    { title: "Parking", color: "linear-gradient(135deg, var(--md-brand-900), var(--md-brand-600))" },
+                  ]}
+                />
+              </Example>
+              <Example title="Quote" code={`<Blockquote cite="Mehmet Kaya, CFO">Quote text</Blockquote>`}>
+                <Blockquote cite="Mehmet Kaya, CFO">Every request should be approved within two working days. Clear forms are what make that possible.</Blockquote>
+              </Example>
+            </Col>
+          </div>
+        </Group>
+
+        {/* ------------------------------------------------------------ */}
         <Group id="patterns" title="Page patterns" intro="Ready compositions you can copy into a new screen.">
           <div className="cards-grid">
             <Example title="Sign in">
@@ -969,6 +1167,7 @@ export function Gallery() {
           </>
         }
       />
+      <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} commands={commands} />
       <Drawer
         open={drawer}
         onClose={() => setDrawer(false)}
