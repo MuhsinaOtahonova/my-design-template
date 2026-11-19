@@ -301,6 +301,20 @@ export const motion = {
     /** Strong ease-out for large surfaces entering the screen */
     emphasized: "cubic-bezier(0.16, 1, 0.3, 1)",
   },
+  /** The same curves as numbers, for React Native's Easing.bezier(x1, y1, x2, y2). */
+  bezier: {
+    standard: [0.2, 0, 0, 1],
+    out: [0, 0, 0.2, 1],
+    spring: [0.34, 1.56, 0.64, 1],
+    emphasized: [0.16, 1, 0.3, 1],
+  },
+  /** Spring presets for React Native's Animated.spring. Low bounce on purpose. */
+  spring: {
+    /** Press feedback: quick, almost no overshoot */
+    press: { speed: 40, bounciness: 4 },
+    /** Things settling back into place */
+    settle: { speed: 22, bounciness: 6 },
+  },
 } as const;
 
 export const breakpoints = { sm: 640, md: 768, lg: 1024, xl: 1280 } as const;

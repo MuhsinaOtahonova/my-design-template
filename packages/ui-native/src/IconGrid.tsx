@@ -3,7 +3,7 @@ import { Animated, Platform, Pressable, StyleSheet, Text, View, type GestureResp
 import { iconPaths, type IconName } from "@my-design/tokens";
 import { font, r, sh, themed, useColors } from "./theme";
 import { Icon } from "./Icon";
-import { useReducedMotion } from "./Motion";
+import { springs, useReducedMotion } from "./Motion";
 
 const native = Platform.OS !== "web";
 /** Max tilt in degrees. Small on purpose: you feel the depth, the motion stays out of the way. */
@@ -21,7 +21,7 @@ export function IconTile({ name, label = name, size = 20, onPress, width }: { na
   const ry = useRef(new Animated.Value(0)).current;
   const press = useRef(new Animated.Value(0)).current;
 
-  const spring = (v: Animated.Value, to: number) => Animated.spring(v, { toValue: to, useNativeDriver: native, speed: 24, bounciness: 6 });
+  const spring = (v: Animated.Value, to: number) => Animated.spring(v, { toValue: to, useNativeDriver: native, ...springs.settle });
   const onLayout = (e: LayoutChangeEvent) => (box.current = { w: e.nativeEvent.layout.width || 1, h: e.nativeEvent.layout.height || 1 });
   const onPressIn = (e: GestureResponderEvent) => {
     if (reduced) return;

@@ -3,6 +3,7 @@ import { ActivityIndicator, Animated, Modal, Pressable, StyleSheet, Text, View, 
 import type { IconName } from "@my-design/tokens";
 import { font, fs, r, sh, themed, useColors, type Colors } from "./theme";
 import { Icon } from "./Icon";
+import { duration, ease } from "./Motion";
 
 export type FeedbackTone = "info" | "success" | "warning" | "danger";
 const toneFor = (c: Colors): Record<FeedbackTone, { bg: string; fg: string; accent: string; icon: IconName }> => ({
@@ -38,7 +39,7 @@ export function Toast({ tone: t = "success", title, description, visible = true,
   const styles = useStyles();
   const y = useRef(new Animated.Value(0)).current;
   useEffect(() => {
-    Animated.timing(y, { toValue: visible ? 1 : 0, duration: 220, useNativeDriver: true }).start();
+    Animated.timing(y, { toValue: visible ? 1 : 0, duration: duration.slow, easing: visible ? ease.emphasized : ease.standard, useNativeDriver: true }).start();
   }, [visible, y]);
   const l = toneFor(c)[t];
   return (
@@ -90,8 +91,8 @@ export function Skeleton({ width = "100%", height = 14, radius = r.xs as number,
   useEffect(() => {
     const loop = Animated.loop(
       Animated.sequence([
-        Animated.timing(o, { toValue: 1, duration: 700, useNativeDriver: true }),
-        Animated.timing(o, { toValue: 0.5, duration: 700, useNativeDriver: true }),
+        Animated.timing(o, { toValue: 1, duration: 700, easing: ease.standard, useNativeDriver: true }),
+        Animated.timing(o, { toValue: 0.5, duration: 700, easing: ease.standard, useNativeDriver: true }),
       ]),
     );
     loop.start();

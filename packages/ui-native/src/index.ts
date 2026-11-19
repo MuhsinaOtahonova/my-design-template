@@ -22,7 +22,7 @@ export { tokens, colors, palette, spacing, radii, typography } from "@my-design/
 
 // Motion
 export { IconGrid, IconTile, nativeIconNames } from "./IconGrid";
-export { FadeIn, PressableScale, AnimatedNumber, usePressScale, useReducedMotion } from "./Motion";
+export { FadeIn, PressableScale, AnimatedNumber, usePressScale, useReducedMotion, ease, duration, springs } from "./Motion";
 
 // Advanced
 export { StatusDot, TagInput, ChatMessage, ChatComposer, type DotTone } from "./Advanced";
