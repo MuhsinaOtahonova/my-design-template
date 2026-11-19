@@ -2,9 +2,11 @@ import {
   createContext,
   useContext,
   useId,
+  useLayoutEffect,
   useRef,
   useState,
   type ChangeEvent,
+  type CSSProperties,
   type InputHTMLAttributes,
   type ReactNode,
   type SelectHTMLAttributes,
@@ -417,8 +419,29 @@ export function SegmentedControl<T extends string>({
 }) {
   const [inner, setInner] = useState<T | undefined>(defaultValue ?? options[0]?.value);
   const current = value ?? inner;
+  const ref = useRef<HTMLDivElement>(null);
+  const [thumb, setThumb] = useState<{ x: number; w: number } | null>(null);
+  useLayoutEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const measure = () => {
+      const el = root.querySelector<HTMLElement>('[aria-checked="true"]');
+      setThumb(el ? { x: el.offsetLeft, w: el.offsetWidth } : null);
+    };
+    measure();
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
+    ro?.observe(root);
+    return () => ro?.disconnect();
+  }, [current, options.length]);
   return (
-    <div role="radiogroup" aria-label={ariaLabel} className={cx("md-segmented", `md-segmented--${size}`, fullWidth && "md-segmented--full")}>
+    <div
+      ref={ref}
+      role="radiogroup"
+      aria-label={ariaLabel}
+      className={cx("md-segmented", `md-segmented--${size}`, fullWidth && "md-segmented--full", thumb && "md-segmented--sliding")}
+      style={thumb ? ({ "--seg-x": `${thumb.x}px`, "--seg-w": `${thumb.w}px` } as CSSProperties) : undefined}
+    >
+      {thumb && <span className="md-segmented__thumb" aria-hidden />}
       {options.map((o) => (
         <button
           key={o.value}

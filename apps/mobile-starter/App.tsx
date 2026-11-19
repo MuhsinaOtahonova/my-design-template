@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Children, useState } from "react";
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useFonts, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from "@expo-google-fonts/inter";
@@ -49,6 +49,9 @@ import {
   Toast,
   useColors,
   type ThemeMode,
+  FadeIn,
+  PressableScale,
+  AnimatedNumber,
 } from "@my-design/ui-native";
 
 type Screen = "home" | "requests" | "components" | "profile";
@@ -87,7 +90,7 @@ function Shell({ mode, toggle }: { mode: ThemeMode; toggle: () => void }) {
         }
       />
       <ScrollView contentContainerStyle={styles.content}>
-        {screen === "home" && <Home go={setScreen} />}
+        {screen === "home" && <Home key="home" go={setScreen} />}
         {screen === "requests" && <Requests />}
         {screen === "components" && <Components />}
         {screen === "profile" && <Profile mode={mode} toggle={toggle} />}
@@ -109,16 +112,29 @@ function Shell({ mode, toggle }: { mode: ThemeMode; toggle: () => void }) {
 // ---------------------------------------------------------------------------
 // Home: a typical office dashboard
 // ---------------------------------------------------------------------------
+/** Children fade and slide in one after another. */
+function Stagger({ children, step = 70 }: { children: React.ReactNode; step?: number }) {
+  return (
+    <View style={styles.gap20}>
+      {Children.toArray(children).map((child, i) => (
+        <FadeIn key={i} delay={i * step}>
+          {child}
+        </FadeIn>
+      ))}
+    </View>
+  );
+}
+
 function Home({ go }: { go: (s: Screen) => void }) {
   const c = useColors();
   return (
-    <View style={styles.gap20}>
+    <Stagger>
       <SearchBar placeholder="Search people, files, requests" />
       <View style={styles.row}>
         <Stat label="Open tasks" value="12" delta="3" trend="up" icon="task" />
         <Stat label="Leave days" value="14" icon="calendar" />
       </View>
-      <Card padding={16} style={{ backgroundColor: c.primary, borderColor: c.primary }}>
+      <Card padding={16} variant="elevated" onPress={() => {}} style={{ backgroundColor: c.primary, borderColor: c.primary, borderBottomWidth: 3, borderBottomColor: c.primaryActive }}>
         <Text weight="semibold" size="lg" style={{ color: c.onPrimary }}>Q4 budget review</Text>
         <Text style={{ color: c.onPrimary, opacity: 0.8, marginTop: 2 }}>Today · 14:00 – 15:00 · Room 4B</Text>
         <View style={[styles.row, { marginTop: 14, alignItems: "center", justifyContent: "space-between" }]}>
@@ -160,7 +176,7 @@ function Home({ go }: { go: (s: Screen) => void }) {
           />
         </View>
       </Card>
-    </View>
+    </Stagger>
   );
 }
 
@@ -237,6 +253,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 function Components() {
+  const c = useColors();
   const [check, setCheck] = useState(true);
   const [sw, setSw] = useState(true);
   const [vol, setVol] = useState(40);
@@ -301,6 +318,23 @@ function Components() {
             <Chip key={t} label={t} selected={chips.includes(t)} onPress={() => setChips(chips.includes(t) ? chips.filter((x) => x !== t) : [...chips, t])} />
           ))}
         </View>
+      </Section>
+
+      <Section title="Motion & depth">
+        <View style={styles.row}>
+          {[
+            { v: 342, l: "Requests", s: "" },
+            { v: 98, l: "On time", s: "%" },
+          ].map((x) => (
+            <PressableScale key={x.l} style={{ flex: 1 }} onPress={() => {}}>
+              <Card variant="elevated" padding={14}>
+                <Text size="sm" tone="muted">{x.l}</Text>
+                <AnimatedNumber value={x.v} suffix={x.s} style={{ fontSize: 26, fontFamily: "Inter_700Bold", color: c.text }} />
+              </Card>
+            </PressableScale>
+          ))}
+        </View>
+        <Text size="sm" tone="muted">Tap the cards: they press in and spring back. Buttons do the same and have a 3D bottom edge.</Text>
       </Section>
 
       <Section title="Status, tags & chat">

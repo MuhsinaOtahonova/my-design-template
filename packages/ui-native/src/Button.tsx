@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
-import { ActivityIndicator, Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
+import { ActivityIndicator, Animated, Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
 import type { IconName } from "@my-design/tokens";
 import { font, fs, r, sh, themed, useColors, type Colors } from "./theme";
 import { Icon } from "./Icon";
+import { usePressScale } from "./Motion";
 
 export type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "danger";
 
@@ -23,37 +24,44 @@ const heights = { sm: 36, md: 44, lg: 52 };
 const pads = { sm: 12, md: 16, lg: 20 };
 const text = { sm: fs.sm, md: fs.md + 1, lg: fs.lg };
 
-const lookFor = (c: Colors): Record<ButtonVariant, { bg: string; pressed: string; fg: string; border?: string }> => ({
-  primary: { bg: c.primary, pressed: c.primaryHover, fg: c.onPrimary },
+const lookFor = (c: Colors): Record<ButtonVariant, { bg: string; pressed: string; fg: string; border?: string; edge?: string }> => ({
+  primary: { bg: c.primary, pressed: c.primaryHover, fg: c.onPrimary, edge: c.primaryActive },
   secondary: { bg: c.primarySoft, pressed: c.primarySoftHover, fg: c.primaryText },
   outline: { bg: c.surface, pressed: c.surfaceSunken, fg: c.text, border: c.borderStrong },
   ghost: { bg: "transparent", pressed: c.surfaceSunken, fg: c.textSecondary },
-  danger: { bg: c.danger, pressed: c.dangerHover, fg: "#FFFFFF" },
+  danger: { bg: c.danger, pressed: c.dangerHover, fg: "#FFFFFF", edge: c.dangerHover },
 });
 
 export function Button({ children, onPress, variant = "primary", size = "md", icon, iconRight, loading, disabled, fullWidth, style }: ButtonProps) {
   const c = useColors();
   const styles = useStyles();
   const l = lookFor(c)[variant];
+  const { scale, onPressIn, onPressOut } = usePressScale(0.96);
   return (
-    <Pressable
-      onPress={onPress}
-      disabled={disabled || loading}
-      accessibilityRole="button"
-      accessibilityState={{ disabled: !!disabled, busy: !!loading }}
-      style={({ pressed }) => [
-        styles.base,
-        { height: heights[size], paddingHorizontal: pads[size], backgroundColor: pressed ? l.pressed : l.bg, opacity: disabled ? 0.5 : 1 },
-        l.border && { borderWidth: 1, borderColor: l.border },
-        variant === "primary" && sh.sm,
-        fullWidth ? { alignSelf: "stretch" } : { alignSelf: "flex-start" },
-        style,
-      ]}
-    >
-      {loading ? <ActivityIndicator size="small" color={l.fg} /> : icon && <Icon name={icon} size={text[size] + 3} color={l.fg} />}
-      {children != null && <Text style={[styles.label, { color: l.fg, fontSize: text[size] }]}>{children}</Text>}
-      {iconRight && !loading && <Icon name={iconRight} size={text[size] + 3} color={l.fg} />}
-    </Pressable>
+    <Animated.View style={[{ transform: [{ scale }] }, fullWidth ? { alignSelf: "stretch" } : { alignSelf: "flex-start" }]}>
+      <Pressable
+        onPress={onPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        disabled={disabled || loading}
+        accessibilityRole="button"
+        accessibilityState={{ disabled: !!disabled, busy: !!loading }}
+        style={({ pressed }) => [
+          styles.base,
+          { height: heights[size], paddingHorizontal: pads[size], backgroundColor: pressed ? l.pressed : l.bg, opacity: disabled ? 0.5 : 1 },
+          l.border && { borderWidth: 1, borderColor: l.border, borderBottomWidth: 2 },
+          // 3D: a darker bottom edge that flattens while pressed
+          l.edge && { borderBottomWidth: pressed ? 0 : 2, borderBottomColor: l.edge, borderTopWidth: pressed ? 2 : 0, borderTopColor: "transparent" },
+          (variant === "primary" || variant === "danger") && !pressed && sh.md,
+          variant === "outline" && !pressed && sh.sm,
+          style,
+        ]}
+      >
+        {loading ? <ActivityIndicator size="small" color={l.fg} /> : icon && <Icon name={icon} size={text[size] + 3} color={l.fg} />}
+        {children != null && <Text style={[styles.label, { color: l.fg, fontSize: text[size] }]}>{children}</Text>}
+        {iconRight && !loading && <Icon name={iconRight} size={text[size] + 3} color={l.fg} />}
+      </Pressable>
+    </Animated.View>
   );
 }
 
