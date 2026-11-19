@@ -19,6 +19,8 @@ interface DeviceFrameProps {
 export function DeviceFrame({ kind, src, title, width, height, maxWidth }: DeviceFrameProps) {
   const holder = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => setLoaded(false), [src]);
   const chrome = kind === "phone" ? 28 : 0; // phone bezel on both sides
 
   useEffect(() => {
@@ -47,12 +49,18 @@ export function DeviceFrame({ kind, src, title, width, height, maxWidth }: Devic
           <div className="device__notch" />
         )}
         <div className="device__screen" style={{ width: viewW, height: viewH }}>
+          {/* Eager on purpose: lazy iframes inside a scaled box sometimes never start loading in Chrome. */}
           <iframe
             title={title}
             src={src}
-            loading="lazy"
+            onLoad={() => setLoaded(true)}
             style={{ width, height, transform: `scale(${scale})` }}
           />
+          {!loaded && (
+            <div className="device__loading" aria-hidden>
+              <span className="md-spinner" />
+            </div>
+          )}
         </div>
       </div>
     </div>

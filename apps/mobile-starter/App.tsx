@@ -92,10 +92,12 @@ function Shell({ mode, toggle }: { mode: ThemeMode; toggle: () => void }) {
         }
       />
       <ScrollView contentContainerStyle={styles.content}>
-        {screen === "home" && <Home key="home" go={setScreen} />}
-        {screen === "requests" && <Requests />}
-        {screen === "components" && <Components />}
-        {screen === "profile" && <Profile mode={mode} toggle={toggle} />}
+        <FadeIn key={screen} distance={12}>
+          {screen === "home" && <Home key="home" go={setScreen} />}
+          {screen === "requests" && <Requests />}
+          {screen === "components" && <Components />}
+          {screen === "profile" && <Profile mode={mode} toggle={toggle} />}
+        </FadeIn>
       </ScrollView>
       <TabBar
         value={screen}
@@ -115,7 +117,7 @@ function Shell({ mode, toggle }: { mode: ThemeMode; toggle: () => void }) {
 // Home: a typical office dashboard
 // ---------------------------------------------------------------------------
 /** Children fade and slide in one after another. */
-function Stagger({ children, step = 70 }: { children: React.ReactNode; step?: number }) {
+function Stagger({ children, step = 90 }: { children: React.ReactNode; step?: number }) {
   return (
     <View style={styles.gap20}>
       {Children.toArray(children).map((child, i) => (

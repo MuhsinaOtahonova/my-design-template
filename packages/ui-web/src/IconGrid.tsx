@@ -5,7 +5,7 @@ import { prefersReducedMotion } from "./Motion";
 import { cx } from "./cx";
 
 /** Max tilt in degrees. Kept small on purpose: depth you notice, motion you don't. */
-const TILT = 6;
+const TILT = 9;
 
 function reset(el: HTMLElement) {
   el.style.removeProperty("--rx");
