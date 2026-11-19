@@ -2,6 +2,7 @@
 # Builds the public demo site into ./site:
 #   /            showcase (web + mobile previews, every component)
 #   /web/        apps/web-starter
+#   /ielts/      apps/ielts (Word a Day, IELTS vocabulary app)
 #   /mobile/     apps/mobile-starter exported for the web (Expo)
 #   /storybook/  apps/docs
 # BASE_PATH is the path the site is served from, e.g. /my-design-template
@@ -14,6 +15,7 @@ pnpm build
 rm -rf site
 cp -r apps/showcase/dist site
 cp -r apps/web-starter/dist site/web
+cp -r apps/ielts/dist site/ielts
 cp -r apps/mobile-starter/dist site/mobile
 cp -r apps/docs/storybook-static site/storybook
 touch site/.nojekyll

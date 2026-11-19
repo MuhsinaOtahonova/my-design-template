@@ -16,6 +16,20 @@ To change the brand color, edit `BRAND` in `packages/tokens/src/index.ts`. Web a
 
 Motion uses the shared `motion` tokens (durations, easing curves, spring presets) and turns off when the system asks for reduced motion.
 
+## Word a Day (IELTS vocabulary app)
+
+A small app built only with these components: [muhsinaotahonova.github.io/my-design-template/ielts/](https://muhsinaotahonova.github.io/my-design-template/ielts/)
+
+- Add 10 words a day (your own, or from a built-in IELTS word list), each with a meaning, an example, and an optional picture or video link.
+- End-of-day review: round 1 on today's words, round 2 on all words so far (weakest first).
+- Games: flashcards, multiple choice, picture quiz, matching, spelling, mixed quiz.
+- Friday is check day: one pass over the week's words (70 at 10 a day) with a score.
+- Streak, 12-week activity grid and badges. Everything is saved in the browser; download a backup from Progress.
+
+```
+pnpm --filter ielts-words dev
+```
+
 ## Components
 
 <a href="https://muhsinaotahonova.github.io/my-design-template/#components"><img src="docs/demo/demo-components.jpg" alt="Component library" width="100%"></a>
