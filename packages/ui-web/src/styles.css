@@ -925,7 +925,7 @@ button.md-list__row:hover { background: var(--md-color-surfaceMuted); }
 .md-card--outlined { box-shadow: var(--md-highlight), var(--md-depth-1); }
 .md-card--elevated { box-shadow: var(--md-highlight), var(--md-depth-2); }
 .md-card--interactive { transition: transform var(--md-duration-slow) var(--md-ease-spring), box-shadow var(--md-duration-slow) var(--md-ease-standard), border-color var(--md-duration-normal); }
-.md-card--interactive:hover { transform: translateY(-2px); box-shadow: var(--md-highlight), var(--md-depth-3); }
+.md-card--interactive:hover { transform: translateY(-3px); box-shadow: var(--md-highlight), var(--md-depth-3); }
 .md-card--interactive:active { transform: translateY(-1px) scale(.995); }
 .md-modal { box-shadow: var(--md-highlight), var(--md-depth-4); }
 .md-popover, .md-toast { box-shadow: var(--md-highlight), var(--md-depth-3); }
@@ -1102,8 +1102,8 @@ button.md-icon-tile { cursor: pointer; }
 }
 .md-icon-tile__label { font-size: 11px; color: var(--md-color-textMuted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: color var(--md-duration-slow); }
 @media (hover: hover) {
-  .md-icon-tile:hover { --ty: -2px; z-index: 1; border-color: color-mix(in srgb, var(--md-color-primary) 28%, var(--md-color-border)); box-shadow: var(--md-highlight), 0 1px 0 var(--md-color-border), var(--md-depth-2); }
-  .md-icon-tile:hover .md-icon-tile__glyph { transform: translateZ(8px); filter: drop-shadow(0 3px 3px color-mix(in srgb, var(--md-color-primary) 28%, transparent)); }
+  .md-icon-tile:hover { --ty: -3px; z-index: 1; border-color: color-mix(in srgb, var(--md-color-primary) 28%, var(--md-color-border)); box-shadow: var(--md-highlight), 0 1px 0 var(--md-color-border), var(--md-depth-2); }
+  .md-icon-tile:hover .md-icon-tile__glyph { transform: translateZ(14px) scale(1.06); filter: drop-shadow(0 3px 3px color-mix(in srgb, var(--md-color-primary) 28%, transparent)); }
   .md-icon-tile:hover .md-icon-tile__label { color: var(--md-color-text); }
 }
 .md-icon-tile:active { --ty: 0px; box-shadow: var(--md-highlight), 0 1px 0 var(--md-color-border); }
@@ -1127,21 +1127,34 @@ button.md-icon-tile { cursor: pointer; }
 .md-timeline__dot { box-shadow: 0 0 0 1px var(--md-color-border), var(--md-depth-1); }
 .md-avatar { box-shadow: inset 0 1px 0 rgba(255,255,255,.25), inset 0 -2px 4px rgba(0,0,0,.12); }
 .md-avatar-group > .md-avatar { box-shadow: 0 0 0 2px var(--md-color-surface), inset 0 -2px 4px rgba(0,0,0,.12); }
+/* Stat cards lift a little, like interactive cards. */
+.md-card.md-stat { transition: transform var(--md-duration-slow) var(--md-ease-spring), box-shadow var(--md-duration-slow) var(--md-ease-standard); }
 @media (hover: hover) {
+  .md-card.md-stat:hover { transform: translateY(-3px); box-shadow: var(--md-highlight), var(--md-depth-3); }
+  .md-navitem:hover:not(.md-navitem--active) .md-icon { transform: translateX(2px); }
+  .md-list__row:hover .md-list__leading { transform: translateX(2px); }
   .md-card:hover .md-card__icon, .md-card:hover .md-stat__icon { transform: translateY(-1px); box-shadow: var(--md-highlight), 0 1px 0 color-mix(in srgb, var(--md-color-text) 8%, transparent), var(--md-depth-2); }
 }
+.md-navitem .md-icon, .md-list__leading { transition: transform var(--md-duration-normal) var(--md-ease-spring); }
 .md-table tbody td { transition: background var(--md-duration-normal) var(--md-ease-standard); }
 .md-list__item, .md-list > li { transition: background var(--md-duration-normal) var(--md-ease-standard); }
 
 /* Page entrance: add `md-page` to a container and give it a `key` per page. */
-@keyframes md-page-in { from { opacity: 0; transform: translateY(8px); } }
-.md-page > * { animation: md-page-in var(--md-duration-slower) var(--md-ease-emphasized) both; }
-.md-page > :nth-child(2) { animation-delay: 40ms; }
-.md-page > :nth-child(3) { animation-delay: 80ms; }
-.md-page > :nth-child(n+4) { animation-delay: 120ms; }
+@keyframes md-page-in { from { opacity: 0; transform: translateY(14px); } }
+.md-page > * { animation: md-page-in var(--md-duration-slower) var(--md-ease-emphasized) backwards; }
+.md-page > :nth-child(2) { animation-delay: 60ms; }
+.md-page > :nth-child(3) { animation-delay: 120ms; }
+.md-page > :nth-child(4) { animation-delay: 180ms; }
+.md-page > :nth-child(n+5) { animation-delay: 240ms; }
+/* Grids inside a page (stat rows, card grids) stagger their own items too. */
+.md-page .md-grid > * { animation: md-page-in var(--md-duration-slower) var(--md-ease-emphasized) backwards; }
+.md-page .md-grid > :nth-child(2) { animation-delay: 70ms; }
+.md-page .md-grid > :nth-child(3) { animation-delay: 140ms; }
+.md-page .md-grid > :nth-child(n+4) { animation-delay: 210ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  .md-page > * { animation: none; }
+  .md-page > *, .md-page .md-grid > * { animation: none; }
+  .md-card.md-stat:hover { transform: none; }
   .md-card:hover .md-card__icon, .md-card:hover .md-stat__icon { transform: none; }
 }
 

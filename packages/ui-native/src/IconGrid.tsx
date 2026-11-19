@@ -7,7 +7,7 @@ import { springs, useReducedMotion } from "./Motion";
 
 const native = Platform.OS !== "web";
 /** Max tilt in degrees. Small on purpose: you feel the depth, the motion stays out of the way. */
-const TILT = 7;
+const TILT = 10;
 
 export const nativeIconNames = Object.keys(iconPaths) as IconName[];
 
@@ -41,12 +41,12 @@ export function IconTile({ name, label = name, size = 20, onPress, width }: { na
               { perspective: 600 },
               { rotateX: rx.interpolate({ inputRange: [-90, 90], outputRange: ["-90deg", "90deg"] }) },
               { rotateY: ry.interpolate({ inputRange: [-90, 90], outputRange: ["-90deg", "90deg"] }) },
-              { scale: press.interpolate({ inputRange: [0, 1], outputRange: [1, 0.97] }) },
+              { scale: press.interpolate({ inputRange: [0, 1], outputRange: [1, 0.95] }) },
             ],
           },
         ]}
       >
-        <Animated.View style={{ transform: [{ translateY: press.interpolate({ inputRange: [0, 1], outputRange: [0, -2] }) }] }}>
+        <Animated.View style={{ transform: [{ translateY: press.interpolate({ inputRange: [0, 1], outputRange: [0, -3] }) }] }}>
           <Icon name={name} size={size} color={c.primaryText} />
         </Animated.View>
         <Text style={styles.label} numberOfLines={1}>{label}</Text>

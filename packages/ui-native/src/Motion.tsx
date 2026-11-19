@@ -32,7 +32,7 @@ export function useReducedMotion() {
 }
 
 /** Spring scale for press feedback: spread the handlers on a Pressable and `scale` on an Animated.View. */
-export function usePressScale(to = 0.96) {
+export function usePressScale(to = 0.95) {
   const scale = useRef(new Animated.Value(1)).current;
   const reduced = useReducedMotion();
   const spring = (v: number) => Animated.spring(scale, { toValue: v, useNativeDriver: native, ...(v === 1 ? springs.settle : springs.press) }).start();
@@ -44,7 +44,7 @@ export function usePressScale(to = 0.96) {
 }
 
 /** Pressable that shrinks slightly and springs back. */
-export function PressableScale({ children, onPress, to = 0.97, style, disabled, accessibilityLabel }: { children: ReactNode; onPress?: () => void; to?: number; style?: StyleProp<ViewStyle>; disabled?: boolean; accessibilityLabel?: string }) {
+export function PressableScale({ children, onPress, to = 0.96, style, disabled, accessibilityLabel }: { children: ReactNode; onPress?: () => void; to?: number; style?: StyleProp<ViewStyle>; disabled?: boolean; accessibilityLabel?: string }) {
   const { scale, onPressIn, onPressOut } = usePressScale(to);
   return (
     <Pressable onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut} disabled={disabled} accessibilityRole={onPress ? "button" : undefined} accessibilityLabel={accessibilityLabel}>
@@ -54,7 +54,7 @@ export function PressableScale({ children, onPress, to = 0.97, style, disabled, 
 }
 
 /** Fades and slides its content in on mount. Use `delay` to stagger a list. */
-export function FadeIn({ children, delay = 0, distance = 14, duration = motion.duration.slower, style }: { children: ReactNode; delay?: number; distance?: number; duration?: number; style?: StyleProp<ViewStyle> }) {
+export function FadeIn({ children, delay = 0, distance = 20, duration = motion.duration.slower, style }: { children: ReactNode; delay?: number; distance?: number; duration?: number; style?: StyleProp<ViewStyle> }) {
   const t = useRef(new Animated.Value(0)).current;
   const reduced = useReducedMotion();
   useEffect(() => {
