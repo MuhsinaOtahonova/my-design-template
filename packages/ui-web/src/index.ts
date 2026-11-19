@@ -115,5 +115,6 @@ export {
   prefersReducedMotion,
   type RevealEffect,
 } from "./Motion";
+export { IconGrid, IconTile, type IconTileProps } from "./IconGrid";
 
 export { tokens } from "@my-design/tokens";

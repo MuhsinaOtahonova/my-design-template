@@ -50,6 +50,8 @@ import {
   useColors,
   type ThemeMode,
   FadeIn,
+  IconGrid,
+  nativeIconNames,
   PressableScale,
   AnimatedNumber,
 } from "@my-design/ui-native";
@@ -335,6 +337,11 @@ function Components() {
           ))}
         </View>
         <Text size="sm" tone="muted">Tap the cards: they press in and spring back. Buttons do the same and have a 3D bottom edge.</Text>
+      </Section>
+
+      <Section title={`Icons (${nativeIconNames.length})`}>
+        <IconGrid columns={4} />
+        <Text size="sm" tone="muted">Press a tile: it tips toward your finger, then settles back.</Text>
       </Section>
 
       <Section title="Status, tags & chat">

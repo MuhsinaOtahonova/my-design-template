@@ -45,9 +45,11 @@ import {
   useToast,
   type Column,
   AnimatedNumber,
+  IconGrid,
+  iconNames,
 } from "@my-design/ui-web";
 
-type Page = "dashboard" | "employees" | "profile" | "settings";
+type Page = "dashboard" | "employees" | "profile" | "settings" | "icons";
 
 interface Employee {
   id: string;
@@ -107,6 +109,9 @@ export function App() {
         <NavItem icon="calendar" label="Calendar" />
         <NavItem icon="chart" label="Reports" />
       </NavSection>
+      <NavSection title="Design">
+        <NavItem icon="grid" label="Icons" count={iconNames.length} active={page === "icons"} onClick={() => (setPage("icons"), setMenuOpen(false))} />
+      </NavSection>
       <NavSection title="Account">
         <NavItem icon="user" label="My profile" active={page === "profile"} onClick={() => (setPage("profile"), setMenuOpen(false))} />
         <NavItem icon="settings" label="Settings" active={page === "settings"} onClick={() => (setPage("settings"), setMenuOpen(false))} />
@@ -155,14 +160,43 @@ export function App() {
             </>
           }
         />
-        <main className="app__content">
+        <main key={page} className="app__content md-page">
           {page === "dashboard" && <Dashboard go={setPage} />}
           {page === "employees" && <Employees />}
           {page === "profile" && <Profile />}
           {page === "settings" && <Settings />}
+          {page === "icons" && <Icons />}
         </main>
       </div>
     </div>
+  );
+}
+
+function Icons() {
+  const [q, setQ] = useState("");
+  const toast = useToast();
+  const names = iconNames.filter((n) => n.toLowerCase().includes(q.trim().toLowerCase()));
+  return (
+    <>
+      <PageHeader title="Icons" crumbs={["Home", "Design", "Icons"]} subtitle={`${iconNames.length} line icons shared by web and mobile. Click one to copy its code.`} />
+      <Card>
+        <div className="md-card__body" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <Input size="sm" icon="search" placeholder="Search icons" value={q} onChange={(e) => setQ(e.target.value)} clearable onClear={() => setQ("")} />
+          {names.length ? (
+            <IconGrid
+              names={names}
+              min={88}
+              onSelect={(n) => {
+                navigator.clipboard?.writeText(`<Icon name="${n}" />`).catch(() => {});
+                toast({ tone: "success", title: "Copied", description: `<Icon name="${n}" />` });
+              }}
+            />
+          ) : (
+            <Text tone="muted">No icon matches “{q}”.</Text>
+          )}
+        </div>
+      </Card>
+    </>
   );
 }
 
