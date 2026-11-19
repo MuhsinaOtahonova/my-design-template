@@ -1,14 +1,26 @@
-# My Design — Live Demo
+# My Design
 
-### 👉 [muhsinaotahonova.github.io/my-design-template](https://muhsinaotahonova.github.io/my-design-template/)
+Components for office web and mobile apps: a React package for the web, a React Native package for mobile, and one set of tokens and icons behind both. Navy and white, with day and night themes.
 
-A professional component library for office web and mobile apps. Navy and white, with a day and night theme.
+Demo: [muhsinaotahonova.github.io/my-design-template](https://muhsinaotahonova.github.io/my-design-template/)
 
-## 🧩 All components
+```
+pnpm install
+pnpm demo        # builds the demo site into ./site
+pnpm web         # web starter app
+pnpm mobile      # Expo mobile starter
+pnpm storybook
+```
+
+To change the brand color, edit `BRAND` in `packages/tokens/src/index.ts`. Web and mobile both follow.
+
+Motion uses the shared `motion` tokens (durations, easing curves, spring presets) and turns off when the system asks for reduced motion.
+
+## Components
 
 <a href="https://muhsinaotahonova.github.io/my-design-template/#components"><img src="docs/demo/demo-components.jpg" alt="Component library" width="100%"></a>
 
-## 🖥️ Web app
+## Web app
 
 <table>
   <tr>
@@ -17,7 +29,7 @@ A professional component library for office web and mobile apps. Navy and white,
   </tr>
 </table>
 
-## 📱 Tablet and mobile
+## Tablet and mobile
 
 <table>
   <tr>

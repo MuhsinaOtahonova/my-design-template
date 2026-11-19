@@ -1,29 +1,22 @@
 import { useRef, type PointerEvent } from "react";
 import {
-  AnimatedNumber,
-  Avatar,
   AvatarGroup,
-  Badge,
   BarChart,
   Button,
   ButtonLink,
   CircularProgress,
   CopyButton,
   Icon,
-  Overline,
   Reveal,
-  RevealGroup,
   Sparkline,
-  SpotlightCard,
   StatusBadge,
-  Switch,
   Text,
   UserCell,
 } from "@my-design/ui-web";
 
 /**
  * The opening of the "All components" page: a 3D, layered scene built from the
- * real components, followed by a bento grid that jumps to each section.
+ * real components. The sidebar is the index, so nothing else sits here.
  */
 export function Hero({ go }: { go: (id: string) => void }) {
   const scene = useRef<HTMLDivElement>(null);
@@ -44,21 +37,14 @@ export function Hero({ go }: { go: (id: string) => void }) {
       <div className="hero">
         <div className="hero__copy">
           <Reveal effect="up">
-            <Badge tone="primary" dot>
-              v2 · Motion & depth
-            </Badge>
+            <h1 className="hero__title">Components for office web and mobile apps.</h1>
           </Reveal>
           <Reveal effect="up" delay={80}>
-            <h1 className="hero__title">
-              Office UI with <span className="hero__accent">depth</span> and calm motion.
-            </h1>
-          </Reveal>
-          <Reveal effect="up" delay={160}>
             <Text size="lg" tone="secondary">
-              120+ navy and white components for web and mobile, in day and night themes. Layered shadows, 3D cards and spring animations that respect “reduce motion”.
+              Navy and white, day and night. The same tokens and 72 icons drive the React web package and the React Native package. Change one brand color in <code>packages/tokens</code> and both follow.
             </Text>
           </Reveal>
-          <Reveal effect="up" delay={240}>
+          <Reveal effect="up" delay={160}>
             <div className="hero__actions">
               <Button size="lg" iconRight="arrowRight" onClick={() => go("buttons")}>
                 Browse components
@@ -68,7 +54,7 @@ export function Hero({ go }: { go: (id: string) => void }) {
               </ButtonLink>
             </div>
           </Reveal>
-          <Reveal effect="up" delay={320}>
+          <Reveal effect="up" delay={240}>
             <div className="hero__install">
               <code>pnpm add @my-design/ui-web</code>
               <CopyButton value="pnpm add @my-design/ui-web" variant="ghost" size="sm" />
@@ -135,98 +121,10 @@ export function Hero({ go }: { go: (id: string) => void }) {
                 <span>Q4 goal</span>
               </div>
             </div>
-            <div className="hero__layer hero__layer--chip">
-              <Switch defaultChecked size="sm" label="Night shift" />
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Numbers that count up */}
-      <RevealGroup className="hero__numbers" stagger={90}>
-        <div>
-          <strong><AnimatedNumber value={120} suffix="+" /></strong>
-          <span className="hero__num-label">components</span>
-        </div>
-        <div>
-          <strong><AnimatedNumber value={73} /></strong>
-          <span className="hero__num-label">shared icons</span>
-        </div>
-        <div>
-          <strong><AnimatedNumber value={2} /></strong>
-          <span className="hero__num-label">themes, day and night</span>
-        </div>
-        <div>
-          <strong><AnimatedNumber value={1} /></strong>
-          <span className="hero__num-label">line to change the brand color</span>
-        </div>
-      </RevealGroup>
-
-      {/* Bento grid: a preview of each area, click to jump */}
-      <div className="bento">
-        <Reveal effect="up" className="bento__a">
-          <SpotlightCard as="button" className="bento__tile" onClick={() => go("buttons")}>
-            <Overline>Buttons</Overline>
-            <div className="bento__demo bento__demo--buttons">
-              <span className="md-btn md-btn--primary md-btn--md"><span className="md-btn__fx" />Approve</span>
-              <span className="md-btn md-btn--elevated md-btn--md"><span className="md-btn__fx" />Review</span>
-              <span className="md-btn md-btn--danger md-btn--md"><span className="md-btn__fx" />Reject</span>
-            </div>
-            <Text size="sm" tone="muted">3D press, ripple, split and hold-to-confirm</Text>
-          </SpotlightCard>
-        </Reveal>
-        <Reveal effect="up" delay={80} className="bento__b">
-          <SpotlightCard as="button" className="bento__tile" onClick={() => go("forms")}>
-            <Overline>Forms</Overline>
-            <div className="bento__demo bento__fields" aria-hidden>
-              <span className="bento__fake"><Icon name="mail" size={15} />name@company.com</span>
-              <span className="bento__fake bento__fake--focus"><Icon name="search" size={15} />Search employees<i /></span>
-            </div>
-            <Text size="sm" tone="muted">Inputs, pickers, sliders, uploads</Text>
-          </SpotlightCard>
-        </Reveal>
-        <Reveal effect="up" delay={160} className="bento__c">
-          <SpotlightCard as="button" className="bento__tile bento__tile--brand" onClick={() => go("motion")}>
-            <Overline>Motion & 3D</Overline>
-            <div className="bento__cube" aria-hidden>
-              <span /><span /><span /><span /><span /><span />
-            </div>
-            <Text size="sm">Tilt cards, card stacks, reveal on scroll</Text>
-          </SpotlightCard>
-        </Reveal>
-        <Reveal effect="up" delay={80} className="bento__d">
-          <SpotlightCard as="button" className="bento__tile" onClick={() => go("charts")}>
-            <Overline>Charts</Overline>
-            <div className="bento__demo">
-              <Sparkline values={[3, 5, 4, 7, 6, 9, 8, 12, 10, 14]} width={220} height={48} />
-            </div>
-            <Text size="sm" tone="muted">Bar, donut, sparkline</Text>
-          </SpotlightCard>
-        </Reveal>
-        <Reveal effect="up" delay={160} className="bento__e">
-          <SpotlightCard as="button" className="bento__tile" onClick={() => go("profile")}>
-            <Overline>People</Overline>
-            <div className="bento__demo bento__people">
-              <Avatar name="Ayşe Demir" status="online" />
-              <Avatar name="Mehmet Kaya" status="away" />
-              <Avatar name="Elif Şahin" status="busy" />
-            </div>
-            <Text size="sm" tone="muted">Profiles, avatars, chat</Text>
-          </SpotlightCard>
-        </Reveal>
-        <Reveal effect="up" delay={240} className="bento__f">
-          <SpotlightCard as="button" className="bento__tile" onClick={() => go("shell")}>
-            <Overline>App shell</Overline>
-            <div className="bento__shell" aria-hidden>
-              <span className="bento__shell-nav" />
-              <span className="bento__shell-main">
-                <i /><i /><i />
-              </span>
-            </div>
-            <Text size="sm" tone="muted">Navy sidebar, top bar, mobile tabs</Text>
-          </SpotlightCard>
-        </Reveal>
-      </div>
     </section>
   );
 }

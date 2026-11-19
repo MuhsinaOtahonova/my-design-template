@@ -1051,7 +1051,7 @@ export function Gallery() {
                 <Logo name="Workplace" short="WP" />
                 <div>
                   <Heading level={5}>Sign in to your account</Heading>
-                  <Text size="sm" tone="muted">Welcome back! Please enter your details.</Text>
+                  <Text size="sm" tone="muted">Sign in to continue. Please enter your details.</Text>
                 </div>
                 <Input label="Email" type="email" placeholder="name@company.com" />
                 <Input label="Password" type="password" placeholder="••••••••" labelAside={<Link href="#">Forgot?</Link>} />
