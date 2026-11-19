@@ -182,7 +182,11 @@ export function Stat({ label, value, delta, trend = "up", icon, style }: { label
     <Card style={[{ gap: 6, flex: 1 }, style]} padding={14}>
       <View style={styles.between}>
         <Text style={styles.muted}>{label}</Text>
-        {icon && <Icon name={icon} size={18} color={c.textMuted} />}
+        {icon && (
+          <View style={styles.statIcon}>
+            <Icon name={icon} size={16} color={c.primaryText} />
+          </View>
+        )}
       </View>
       <Text style={styles.statValue}>{value}</Text>
       {delta && (
@@ -286,7 +290,8 @@ export function Carousel({ children, itemWidth = 280, gap = 12 }: { children: Re
 const useStyles = themed((c) => StyleSheet.create({
   card: { backgroundColor: c.surface, borderRadius: r.lg, borderWidth: 1, borderColor: c.border },
   cardHeader: { flexDirection: "row", alignItems: "center", gap: 12 },
-  cardIcon: { width: 36, height: 36, borderRadius: r.md, backgroundColor: c.primarySoft, alignItems: "center", justifyContent: "center" },
+  cardIcon: { width: 36, height: 36, borderRadius: r.md, backgroundColor: c.primarySoft, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: c.border, ...sh.sm },
+  statIcon: { width: 30, height: 30, borderRadius: r.md, backgroundColor: c.primarySoft, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: c.border, ...sh.sm },
   cardTitle: { fontSize: fs.lg, fontFamily: font.semibold, color: c.text },
   muted: { fontSize: fs.sm + 1, color: c.textMuted, fontFamily: font.regular },
   between: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 8 },
@@ -305,7 +310,7 @@ const useStyles = themed((c) => StyleSheet.create({
   statValue: { fontSize: fs["3xl"], fontFamily: font.semibold, color: c.text, letterSpacing: -0.4 },
   delta: { flexDirection: "row", alignItems: "center", gap: 2, alignSelf: "flex-start", paddingHorizontal: 6, paddingVertical: 2, borderRadius: r.xs },
   empty: { alignItems: "center", gap: 6, paddingVertical: 32, paddingHorizontal: 16 },
-  emptyIcon: { width: 56, height: 56, borderRadius: 28, backgroundColor: c.surfaceSunken, alignItems: "center", justifyContent: "center", marginBottom: 6 },
+  emptyIcon: { width: 56, height: 56, borderRadius: 28, backgroundColor: c.surfaceSunken, alignItems: "center", justifyContent: "center", marginBottom: 6, borderWidth: 1, borderColor: c.border, ...sh.sm },
   tlDot: { width: 24, height: 24, borderRadius: 12, alignItems: "center", justifyContent: "center" },
   tlLine: { flex: 1, width: 2, backgroundColor: c.border, marginVertical: 2 },
   profile: { backgroundColor: c.surface, borderRadius: r.xl, borderWidth: 1, borderColor: c.border, overflow: "hidden", paddingBottom: 0 },

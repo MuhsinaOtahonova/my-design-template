@@ -1,4 +1,4 @@
-import { useEffect, useState, type PointerEvent as RPointerEvent, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { BRAND, palette, radii, shadows, spacing } from "@my-design/tokens";
 import {
   Accordion,
@@ -30,6 +30,7 @@ import {
   Icon,
   IconButton,
   iconNames,
+  IconGrid,
   Input,
   Kbd,
   Link,
@@ -157,35 +158,6 @@ const personColumns: Column<Person>[] = [
 // ---------------------------------------------------------------------------
 // The gallery
 // ---------------------------------------------------------------------------
-/* 3D tilt for the icon gallery: one delegated handler for all tiles. */
-const ICON_TILT = 10;
-function resetTile(el: HTMLElement) {
-  el.style.removeProperty("--rx");
-  el.style.removeProperty("--ry");
-  el.classList.remove("is-tilting");
-}
-function iconTilt(e: RPointerEvent<HTMLDivElement>) {
-  if (e.pointerType !== "mouse") return;
-  const el = (e.target as HTMLElement).closest<HTMLElement>(".icons__item");
-  if (!el) return;
-  const r = el.getBoundingClientRect();
-  const px = (e.clientX - r.left) / r.width;
-  const py = (e.clientY - r.top) / r.height;
-  el.classList.add("is-tilting");
-  el.style.setProperty("--rx", `${(0.5 - py) * ICON_TILT * 2}deg`);
-  el.style.setProperty("--ry", `${(px - 0.5) * ICON_TILT * 2}deg`);
-  el.style.setProperty("--gx", `${px * 100}%`);
-  el.style.setProperty("--gy", `${py * 100}%`);
-}
-function iconTiltOut(e: RPointerEvent<HTMLDivElement>) {
-  const from = (e.target as HTMLElement).closest<HTMLElement>(".icons__item");
-  const to = (e.relatedTarget as HTMLElement | null)?.closest?.(".icons__item");
-  if (from && from !== to) resetTile(from);
-}
-function iconTiltReset(e: RPointerEvent<HTMLDivElement>) {
-  e.currentTarget.querySelectorAll<HTMLElement>(".icons__item.is-tilting").forEach(resetTile);
-}
-
 export function Gallery() {
   const toast = useToast();
   const [modal, setModal] = useState<null | "form" | "confirm">(null);
@@ -294,15 +266,7 @@ export function Gallery() {
             </Col>
           </Example>
           <Example title={`Icons (${iconNames.length})`} note={<>Shared by web and mobile: <Code>{'<Icon name="calendar" />'}</Code></>}>
-            <div className="icons" onPointerMove={iconTilt} onPointerLeave={iconTiltReset} onPointerOut={iconTiltOut}>
-              {iconNames.map((n) => (
-                <div key={n} className="icons__item" title={n}>
-                  <span className="icons__glyph"><Icon name={n} size={20} /></span>
-                  <small>{n}</small>
-                  <span className="icons__glare" aria-hidden />
-                </div>
-              ))}
-            </div>
+            <IconGrid />
           </Example>
           <Example title="Radii, spacing & shadows">
             <Col gap={24}>
@@ -1087,7 +1051,7 @@ export function Gallery() {
                 <Logo name="Workplace" short="WP" />
                 <div>
                   <Heading level={5}>Sign in to your account</Heading>
-                  <Text size="sm" tone="muted">Welcome back! Please enter your details.</Text>
+                  <Text size="sm" tone="muted">Sign in to continue. Please enter your details.</Text>
                 </div>
                 <Input label="Email" type="email" placeholder="name@company.com" />
                 <Input label="Password" type="password" placeholder="••••••••" labelAside={<Link href="#">Forgot?</Link>} />
